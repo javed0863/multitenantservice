@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: multitenantservice
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    show-sql: true
+
+# Multi-tenancy configuration
+multitenancy:
+  tenants: tenant1,tenant2
+  default-tenant: tenant1
+  tenant1:
+    datasource:
+      url: jdbc:mariadb://localhost:3306/mydb?createDatabaseIfNotExist=true
+      username: root
+      password: my_root_password
+  tenant2:
+    datasource:
+      url: jdbc:mariadb://localhost:3306/mydb2?createDatabaseIfNotExist=true
+      username: root
+      password: my_root_password

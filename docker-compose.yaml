@@ -1,0 +1,32 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      # Required: Set the root password
+      MARIADB_ROOT_PASSWORD: my_root_password
+      # Optional: Create a database and user on first launch
+      MARIADB_DATABASE: mydb
+      MARIADB_USER: javed0863
+      MARIADB_PASSWORD: javed@123
+    volumes:
+      # Persist data across container restarts
+      - mariadb_data:/var/lib/mysql
+      # Optional: Mount custom config
+      # - ./my.cnf:/etc/mysql/my.cnf
+      # Optional: Mount init scripts (run once on first boot)
+      # - ./init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  mariadb_data:
+    driver: local
+
